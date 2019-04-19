@@ -23,4 +23,90 @@
 	        </div>
 	    </t>
     </t>
+		<!-- .row:after {
+  content: "";
+  display: table;
+  clear: both;
+}-->
+		<t t-name="PosTicketLavi">
+        <div class="pos-sale-ticket">
+						<div style='text-align:center; font-size: 16px'>
+								<span><strong style='font-size: 20px'>
+									<t t-esc="widget.pos.company.name"/>
+								</strong></span><br/>
+								<span><t t-esc="widget.pos.company.street"/></span><br/>
+								<span><strong>Hotline: </strong><t t-esc="widget.pos.company.phone"/></span>
+						</div>
+
+            <div class="row" >
+								<div class="column" style="float: left;width: 50%;">
+										<p style="font-size: 13px">Thời gian: <t t-esc="order.formatted_validation_date"/></p>
+										<p style="font-size: 13px">Thu ngân: <t t-esc="widget.pos.cashier ? widget.pos.cashier.name : widget.pos.user.name"/></p>
+								</div>
+								<div class="column" style="float: left;width: 50%;">
+										<p style="font-size: 13px">Số hóa đơn: <t t-esc="order.name"/></p>
+								</div>
+						</div>
+            <table class='receipt-orderlines'>
+                <colgroup>
+                    <col width='30%' />
+                    <col width='25%' />
+                    <col width='45%' />
+                </colgroup>
+								<tr>
+										<th style='width:25%'>Sản phẩm</th><th style='width:25%; text-align:right' >Số lượng</th><th style='width:45%; text-align:right'>Thành tiền</th>
+								</tr>
+                <tr t-foreach="orderlines" t-as="orderline" style="border-bottom:1px solid #000000">
+                    <td>
+                        <t t-esc="orderline.get_product().display_name"/>
+                         <t t-if="orderline.get_discount() > 0">
+                            <div class="pos-disc-font">
+                                With a <t t-esc="orderline.get_discount()"/>% discount
+                            </div>
+                        </t>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-esc="orderline.get_quantity_str_with_unit()"/>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(orderline.get_display_price())"/>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class='receipt-total'>
+                <tr class="emph">
+                    <td>Tổng tiền:</td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(order.get_total_with_tax())"/>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class='receipt-paymentlines'>
+                <t t-foreach="paymentlines" t-as="line">
+                  <tr>
+                      <td>
+                          Tiền khách đưa
+                      </td>
+                      <td class="pos-right-align">
+                          <t t-esc="widget.format_currency(line.get_amount())"/>
+                      </td>
+                  </tr>
+                </t>
+            </table>
+            <br />
+            <table class='receipt-change'>
+                <tr><td>Tiền dư:</td><td class="pos-right-align">
+                    <t t-esc="widget.format_currency(order.get_change())"/>
+                    </td></tr>
+            </table>
+            <t t-if="receipt.footer">
+                <br />
+                <div style='text-align:center'>
+                    <t t-esc="receipt.footer" />
+                </div>
+            </t>
+        </div>
+    </t>
 </templates>

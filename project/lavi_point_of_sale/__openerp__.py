@@ -13,6 +13,8 @@
     ],
     'data': [
         'views/point_of_sale.xml',
+        'views/product_product.xml',
+        'views/purchase_order.xml',
     ],
 
     'test': [],
